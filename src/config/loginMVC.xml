@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!--看到下面的beans这个元素标签没有，必须有标签的声明-->  
+<beans  
+    xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">  
+  
+   <bean id="localeResolver" class="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver"></bean>
+   <!--配置控制器的映射-->
+   <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+       <property name="mappings">
+           <props>
+               <prop key="helloWorld.do">helloWorldAction</prop>
+               <prop key="login.do">loginAction</prop>  
+           </props>
+       </property> 
+   </bean>
+   <!--配置视图 
+   <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass">
+            <value>org.springframework.web.servlet.view.InternalResourceView</value>
+        </property>
+   </bean>
+  -->
+    <!-- 配置视图      通过读取X.properties文件，进行视图解析,这个文件位于classpath路径下，X的值是通过设置-->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
+        <property name="basename" value="views"/>
+    </bean>
+    
+    <!--指定控制器的实现类，并且配置其参数的值-->
+    <bean id="helloWorldAction" class="com.icss.login.controller.HelloWorldAction">
+        <property name="helloWorld">
+            <value>Hello Spring World!</value>
+        </property>
+        <property name="viewPage">
+            <!--value>sayHello.jsp</value--><!-- 直接指定视图Uri -->
+            <value>sayHelloView</value><!-- 通过读取X.properties文件，进行视图解析,这个文件位于classpath路径下，X的值是通过设置 -->
+        </property>
+    </bean>
+    
+    <bean id="loginAction" class="com.icss.login.controller.LoginController"></bean>
+    
+    <!-- 拦截器  暂时还没搞定怎么用，还没生效
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">       
+	 <property name="interceptors">       
+	     <list>       
+	         <bean class="com.icss.login.Controller.MyInteceptor"></bean>      
+	     </list>       
+	 </property>       
+	</bean>  
+     -->  	
+<!--
+<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
+    <property name="viewClass">  
+        <value>org.springframework.web.servlet.view.JstlView</value>  
+    </property>  
+    <property name="prefix">  
+        <value>/view/</value>  
+    </property>  
+    <property name="suffix">  
+        <value>.jsp</value>  
+    </property>  
+</bean>  
+  formController ,这个formController可以配置也可以不配置
+ <bean id="formController"  
+ class="org.springframework.web.servlet.mvc.ParameterizableViewController">  
+  <property name="viewName">  
+   <value>form</value>  
+  </property>  
+ </bean>  
+  
+ Action Definition   
+<bean id="regAction" class="org.lee.springmvc.demo.RegAction">  
+   在MySpringMvc这个项目中就没有配置这个commandClass,  
+因为它提前调用了setCommandClass(LoginForm.class)这个方法；这样跟下面效果一样  
+不过还是建议配成下面这样的更好  
+ 
+    <property name="commandClass">  
+        <value>org.lee.springmvc.demo.RegInfo</value>  
+    </property>  
+    <property name="error_view">  
+        <value>error</value>  
+    </property>  
+    <property name="success_view">  
+        <value>success</value>  
+    </property>  
+    <property name="commandName">  
+        <value>myCommand</value>  
+    </property>  
+</bean>  
+-->  
+</beans>
