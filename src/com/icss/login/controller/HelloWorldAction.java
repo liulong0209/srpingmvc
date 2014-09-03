@@ -15,9 +15,10 @@ public class HelloWorldAction implements Controller{
 
 	 private String helloWorld;      //该属性用于获取配置文件中的helloWorld属性
 	 private String viewPage;        //用于获取配置文件中的viewPage属性
+	 
 	 public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
 			 throws ServletException, IOException {//在该方法中处理用户请求
-        Map model = new HashMap();
+        Map<String,String> model = new HashMap<String,String>();
         model.put("helloWorld", getHelloWorld());       //将helloWorld属性存 入model中
         request.getSession().setAttribute("12", "34");
         return new ModelAndView(getViewPage(),model);   //调用getViewPage获 取要返回的页面
